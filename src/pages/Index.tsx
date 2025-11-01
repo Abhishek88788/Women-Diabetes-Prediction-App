@@ -395,7 +395,13 @@ const Index = () => {
         {/* Footer */}
         <div className="text-center mt-12 text-muted-foreground">
           <p className="text-sm sm:text-base">
-            Made with ❤️ by developers, for <span className="font-semibold text-primary">developers</span>
+            Made with ❤️ by{" "}
+            <a
+              href="https://github.com/Abhishek88788/Women-Diabetes-Prediction-App"
+              className="font-semibold text-primary"
+            >
+              developers
+            </a>
           </p>
           <p className="text-xs mt-2">
             <Scale className="w-4 h-4 inline mr-1" />
