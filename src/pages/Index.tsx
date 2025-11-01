@@ -395,7 +395,7 @@ const Index = () => {
         {/* Footer */}
         <div className="text-center mt-12 text-muted-foreground">
           <p className="text-sm sm:text-base">
-            Built with ❤️ using <span className="font-semibold text-primary">Lovable AI</span>
+            Made with ❤️ by developers, for <span className="font-semibold text-primary">developers</span>
           </p>
           <p className="text-xs mt-2">
             <Scale className="w-4 h-4 inline mr-1" />
