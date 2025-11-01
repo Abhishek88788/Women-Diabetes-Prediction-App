@@ -2,9 +2,22 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
-import { Activity, Heart, Droplet, Scale, AlertCircle, CheckCircle2 } from "lucide-react";
+import {
+  Activity,
+  Heart,
+  Droplet,
+  Scale,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface FormData {
@@ -17,6 +30,31 @@ interface FormData {
   diabetesPedigree: string;
   age: string;
 }
+
+// Health Suggestions helper function
+const getHealthSuggestions = (prediction: "positive" | "negative" | null) => {
+  if (prediction === "positive") {
+    return [
+      "Consult a healthcare professional for further testing and personalized advice.",
+      "Start a diet rich in fiber, lean proteins, whole grains, fruits, and vegetables.",
+      "Incorporate at least 30 minutes of moderate exercise like brisk walking, 5 days a week.",
+      "Limit intake of sugary foods, sweetened drinks, and highly processed snacks.",
+      "Monitor and record your blood sugar levels as guided by your doctor.",
+      "Maintain a healthy weight and manage stress through activities like yoga or meditation.",
+      "Get regular checkups to track and manage your health improvement.",
+    ];
+  } else if (prediction === "negative") {
+    return [
+      "Keep following a balanced diet with lots of veggies, whole grains, and healthy proteins.",
+      "Continue regular physical activity—aim for at least 150 minutes per week.",
+      "Maintain a healthy weight through regular meals and moderate portion sizes.",
+      "Avoid excessive sugar and oily processed snacks in your daily life.",
+      "Schedule annual health checkups to stay updated about your risks.",
+      "Make healthy habits a routine to keep diabetes risk low.",
+    ];
+  }
+  return [];
+};
 
 const Index = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -75,7 +113,9 @@ const Index = () => {
       if (!formData[field] || isNaN(Number(formData[field]))) {
         toast({
           title: "Validation Error",
-          description: `Please enter a valid number for ${field.replace(/([A-Z])/g, " $1").toLowerCase()}`,
+          description: `Please enter a valid number for ${field
+            .replace(/([A-Z])/g, " $1")
+            .toLowerCase()}`,
           variant: "destructive",
         });
         return false;
@@ -99,12 +139,14 @@ const Index = () => {
       if (glucose > 140 || bmi > 30) {
         setResult({
           prediction: "positive",
-          message: "Based on your inputs, there may be an increased risk. Please consult a healthcare professional.",
+          message:
+            "Based on your inputs, there may be an increased risk. Please consult a healthcare professional.",
         });
       } else {
         setResult({
           prediction: "negative",
-          message: "Based on your inputs, your risk appears to be lower. Continue maintaining a healthy lifestyle!",
+          message:
+            "Based on your inputs, your risk appears to be lower. Continue maintaining a healthy lifestyle!",
         });
       }
 
@@ -124,7 +166,8 @@ const Index = () => {
             </h1>
           </div>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            Enter your medical information below to get a simulated diabetes risk assessment
+            Enter your medical information below to get a simulated diabetes
+            risk assessment
           </p>
         </div>
 
@@ -143,13 +186,20 @@ const Index = () => {
             {/* Form Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <Label htmlFor="pregnancies" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="pregnancies"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Pregnancies
-                  <span className="text-sm text-primary font-semibold">{formData.pregnancies || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.pregnancies || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.pregnancies) || 0]}
-                  onValueChange={(value) => handleSliderChange("pregnancies", value)}
+                  onValueChange={(value) =>
+                    handleSliderChange("pregnancies", value)
+                  }
                   min={fieldRanges.pregnancies.min}
                   max={fieldRanges.pregnancies.max}
                   step={fieldRanges.pregnancies.step}
@@ -160,19 +210,28 @@ const Index = () => {
                   type="number"
                   placeholder="e.g., 2"
                   value={formData.pregnancies}
-                  onChange={(e) => handleInputChange("pregnancies", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("pregnancies", e.target.value)
+                  }
                   className="h-12 text-base"
                 />
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="glucose" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="glucose"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Glucose Level (mg/dL)
-                  <span className="text-sm text-primary font-semibold">{formData.glucose || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.glucose || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.glucose) || 0]}
-                  onValueChange={(value) => handleSliderChange("glucose", value)}
+                  onValueChange={(value) =>
+                    handleSliderChange("glucose", value)
+                  }
                   min={fieldRanges.glucose.min}
                   max={fieldRanges.glucose.max}
                   step={fieldRanges.glucose.step}
@@ -189,13 +248,20 @@ const Index = () => {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="bloodPressure" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="bloodPressure"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Blood Pressure (mm Hg)
-                  <span className="text-sm text-primary font-semibold">{formData.bloodPressure || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.bloodPressure || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.bloodPressure) || 0]}
-                  onValueChange={(value) => handleSliderChange("bloodPressure", value)}
+                  onValueChange={(value) =>
+                    handleSliderChange("bloodPressure", value)
+                  }
                   min={fieldRanges.bloodPressure.min}
                   max={fieldRanges.bloodPressure.max}
                   step={fieldRanges.bloodPressure.step}
@@ -206,19 +272,28 @@ const Index = () => {
                   type="number"
                   placeholder="e.g., 80"
                   value={formData.bloodPressure}
-                  onChange={(e) => handleInputChange("bloodPressure", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("bloodPressure", e.target.value)
+                  }
                   className="h-12 text-base"
                 />
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="skinThickness" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="skinThickness"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Skin Thickness (mm)
-                  <span className="text-sm text-primary font-semibold">{formData.skinThickness || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.skinThickness || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.skinThickness) || 0]}
-                  onValueChange={(value) => handleSliderChange("skinThickness", value)}
+                  onValueChange={(value) =>
+                    handleSliderChange("skinThickness", value)
+                  }
                   min={fieldRanges.skinThickness.min}
                   max={fieldRanges.skinThickness.max}
                   step={fieldRanges.skinThickness.step}
@@ -229,19 +304,28 @@ const Index = () => {
                   type="number"
                   placeholder="e.g., 25"
                   value={formData.skinThickness}
-                  onChange={(e) => handleInputChange("skinThickness", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("skinThickness", e.target.value)
+                  }
                   className="h-12 text-base"
                 />
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="insulin" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="insulin"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Insulin Level (μU/mL)
-                  <span className="text-sm text-primary font-semibold">{formData.insulin || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.insulin || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.insulin) || 0]}
-                  onValueChange={(value) => handleSliderChange("insulin", value)}
+                  onValueChange={(value) =>
+                    handleSliderChange("insulin", value)
+                  }
                   min={fieldRanges.insulin.min}
                   max={fieldRanges.insulin.max}
                   step={fieldRanges.insulin.step}
@@ -258,9 +342,14 @@ const Index = () => {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="bmi" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="bmi"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   BMI (Body Mass Index)
-                  <span className="text-sm text-primary font-semibold">{formData.bmi || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.bmi || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.bmi) || 0]}
@@ -282,13 +371,20 @@ const Index = () => {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="diabetesPedigree" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="diabetesPedigree"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Diabetes Pedigree Function
-                  <span className="text-sm text-primary font-semibold">{formData.diabetesPedigree || "0.000"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.diabetesPedigree || "0.000"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.diabetesPedigree) || 0]}
-                  onValueChange={(value) => handleSliderChange("diabetesPedigree", value)}
+                  onValueChange={(value) =>
+                    handleSliderChange("diabetesPedigree", value)
+                  }
                   min={fieldRanges.diabetesPedigree.min}
                   max={fieldRanges.diabetesPedigree.max}
                   step={fieldRanges.diabetesPedigree.step}
@@ -300,15 +396,22 @@ const Index = () => {
                   step="0.001"
                   placeholder="e.g., 0.45"
                   value={formData.diabetesPedigree}
-                  onChange={(e) => handleInputChange("diabetesPedigree", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("diabetesPedigree", e.target.value)
+                  }
                   className="h-12 text-base"
                 />
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="age" className="text-base font-medium flex items-center justify-between">
+                <Label
+                  htmlFor="age"
+                  className="text-base font-medium flex items-center justify-between"
+                >
                   Age (years)
-                  <span className="text-sm text-primary font-semibold">{formData.age || "0"}</span>
+                  <span className="text-sm text-primary font-semibold">
+                    {formData.age || "0"}
+                  </span>
                 </Label>
                 <Slider
                   value={[Number(formData.age) || 0]}
@@ -374,7 +477,9 @@ const Index = () => {
                 </div>
                 <h2
                   className={`text-2xl sm:text-3xl font-bold ${
-                    result.prediction === "positive" ? "text-warning" : "text-success"
+                    result.prediction === "positive"
+                      ? "text-warning"
+                      : "text-success"
                   }`}
                 >
                   {result.prediction === "positive"
@@ -385,9 +490,31 @@ const Index = () => {
                   {result.message}
                 </p>
                 <p className="text-sm text-muted-foreground italic">
-                  This is a simulated result — connect ML backend later for accurate predictions.
+                  This is a simulated result — connect ML backend later for
+                  accurate predictions.
                 </p>
               </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Health Suggestions Card */}
+        {result.prediction && (
+          <Card className="mt-4 shadow border animate-fade-in">
+            <CardContent className="pt-6 pb-6">
+              <div className="mb-3 flex items-center justify-center gap-2">
+                <Heart className="w-5 h-5 text-primary" />
+                <h3 className="text-lg sm:text-xl font-bold">
+                  Health Suggestions
+                </h3>
+              </div>
+              <ul className="list-disc list-inside text-sm sm:text-base text-left mx-auto max-w-2xl space-y-2">
+                {getHealthSuggestions(result.prediction).map(
+                  (suggestion, idx) => (
+                    <li key={idx}>{suggestion}</li>
+                  )
+                )}
+              </ul>
             </CardContent>
           </Card>
         )}
@@ -395,11 +522,13 @@ const Index = () => {
         {/* Footer */}
         <div className="text-center mt-12 text-muted-foreground">
           <p className="text-sm sm:text-base">
-            Built with ❤️ using <span className="font-semibold text-primary">Lovable AI</span>
+            Built with ❤️ using{" "}
+            <span className="font-semibold text-primary">Lovable AI</span>
           </p>
           <p className="text-xs mt-2">
             <Scale className="w-4 h-4 inline mr-1" />
-            For educational purposes only. Always consult a healthcare professional.
+            For educational purposes only. Always consult a healthcare
+            professional.
           </p>
         </div>
       </div>
